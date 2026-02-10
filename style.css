@@ -1,0 +1,339 @@
+:root {
+    --bg-color: #121213;
+    --text-color: #ffffff;
+    --tile-border: #3a3a3c;
+    --tile-active: #565758;
+    --tile-correct: #538d4e;
+    --tile-present: #b59f3b;
+    --tile-absent: #3a3a3c;
+    --key-bg: #818384;
+    --key-hover: #9fa1a3;
+
+    /* Premium Gradients/Shadows */
+    --modal-bg: rgba(25, 25, 27, 0.95);
+    --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.3);
+
+    font-family: 'Outfit', sans-serif;
+}
+
+/* Valentine Mode Variables Override */
+body.valentine-mode {
+    --bg-color: #2a0a0a;
+    --text-color: #ffb7b2;
+    --tile-border: #800020;
+    --tile-active: #ff0000;
+    --tile-correct: #e91e63;
+    --tile-present: #ff69b4;
+    --tile-absent: #4a0404;
+    --key-bg: #5c1818;
+    --key-hover: #a32424;
+    --modal-bg: rgba(60, 10, 20, 0.95);
+    transition: background-color 1s ease;
+}
+
+body.valentine-mode header h1 {
+    background: linear-gradient(45deg, #ff0055, #ff99aa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 2px 15px rgba(255, 0, 85, 0.4);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    overflow: hidden;
+    transition: background-color 0.3s;
+}
+
+.app-container {
+    width: 100%;
+    max-width: 500px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1rem;
+}
+
+header {
+    border-bottom: 1px solid var(--tile-border);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+header h1 {
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    font-size: 2rem;
+    background: linear-gradient(45deg, #ffffff, #a0a0a0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+    transition: all 0.5s;
+}
+
+#game-container {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#grid-container {
+    display: grid;
+    grid-template-rows: repeat(6, 1fr);
+    gap: 5px;
+    width: 300px;
+    height: 360px;
+}
+
+.grid-row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 5px;
+}
+
+.grid-row.short {
+    grid-template-columns: repeat(3, 1fr);
+    width: 180px;
+    margin: 0 auto;
+}
+
+.tile {
+    border: 2px solid var(--tile-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    user-select: none;
+    transition: transform 0.2s, background-color 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.tile[data-state="active"] {
+    border-color: var(--tile-active);
+    animation: pop 0.1s ease-in-out;
+}
+
+.tile[data-state="correct"] {
+    background-color: var(--tile-correct);
+    border-color: var(--tile-correct);
+}
+
+.tile[data-state="present"] {
+    background-color: var(--tile-present);
+    border-color: var(--tile-present);
+}
+
+.tile[data-state="absent"] {
+    background-color: var(--tile-absent);
+    border-color: var(--tile-absent);
+}
+
+.tile[data-state="heart"] {
+    background-color: transparent;
+    border-color: transparent;
+    color: #ff0055;
+    font-size: 2rem;
+    text-shadow: 0 0 10px rgba(255, 0, 85, 0.5);
+}
+
+.tile.flip {
+    animation: flip 0.6s ease-in;
+}
+
+/* Animations */
+@keyframes pop {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes flip {
+    0% {
+        transform: rotateX(0);
+    }
+
+    50% {
+        transform: rotateX(90deg);
+    }
+
+    100% {
+        transform: rotateX(0);
+    }
+}
+
+/* Keyboard */
+#keyboard-container {
+    margin-bottom: 1rem;
+}
+
+.keyboard-row {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 8px;
+    touch-action: manipulation;
+}
+
+.key {
+    background-color: var(--key-bg);
+    color: white;
+    font-weight: 600;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 58px;
+    margin: 0 3px;
+    user-select: none;
+    flex: 1;
+    text-transform: uppercase;
+    transition: background-color 0.1s, transform 0.1s;
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.key:active {
+    transform: translateY(2px);
+    box-shadow: none;
+}
+
+.key.large {
+    flex: 1.5;
+    font-size: 0.8rem;
+}
+
+/* Modal */
+#modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    opacity: 1;
+    transition: opacity 0.3s;
+}
+
+#modal-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+#game-modal {
+    background: var(--modal-bg);
+    padding: 2rem;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid var(--tile-border);
+    max-width: 80%;
+}
+
+#game-modal h2 {
+    margin-bottom: 1rem;
+    color: var(--text-color);
+}
+
+#game-modal p {
+    margin-bottom: 1.5rem;
+    color: #a0a0a0;
+}
+
+#restart-btn {
+    background: var(--tile-correct);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: filter 0.2s;
+}
+
+#restart-btn:hover {
+    filter: brightness(1.1);
+}
+
+/* Secret Button */
+#secret-btn {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    font-size: 20px;
+    color: #3a3a3c;
+    /* hidden in plain sight */
+    cursor: pointer;
+    opacity: 0.1;
+    transition: opacity 0.3s, color 0.3s;
+    z-index: 200;
+    user-select: none;
+}
+
+#secret-btn:hover {
+    opacity: 1;
+    color: #ff0055;
+    transform: scale(1.2);
+}
+
+#secret-btn.active {
+    color: #ff0055;
+    opacity: 0.8;
+}
+
+/* Rejection Screen */
+body.rejected {
+    background-color: black !important;
+    transition: background-color 2s ease;
+}
+
+body.rejected * {
+    display: none !important;
+}
+
+/* Celebration Screen */
+body.celebrating {
+    background-color: #ffb7b2;
+    overflow: hidden;
+}
+
+.confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: #f00;
+    animation: fall linear forwards;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(100vh) rotate(720deg);
+    }
+}
