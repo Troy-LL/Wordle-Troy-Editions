@@ -67,7 +67,7 @@ function initGame() {
     // Clear styles if restarting from valentine validation
     document.body.classList.remove("valentine-mode");
     const h1 = document.querySelector("header h1");
-    h1.textContent = "WORDLE";
+    h1.textContent = "WORDLE: Troy Editions";
 
     console.log("Target Word:", state.targetWord);
 
